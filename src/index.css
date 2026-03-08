@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply text-slate-800 bg-slate-50;
+  }
+}
