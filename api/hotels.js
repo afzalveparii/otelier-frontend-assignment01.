@@ -82,14 +82,51 @@ export default async function handler(req, res) {
 
     const hotels = hotelResponse.data.data || [];
 
-    const normalizedHotels = hotels.map((item) => ({
-      id: item.hotel.hotelId,
-      name: item.hotel.name,
-      rating: item.hotel.rating || "N/A",
-      city: item.hotel.address?.cityName || cityCode,
-      price: item.offers?.[0]?.price?.total || "0",
-      currency: item.offers?.[0]?.price?.currency || "USD",
-    }));
+    // 4. Fetch Hotel Ratings (E-Reputation / Sentiments)
+    let ratingsMap = new Map();
+    try {
+      const ratingsResponse = await axios.get(
+        "https://test.api.amadeus.com/v2/e-reputation/hotel-sentiments",
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          params: { hotelIds },
+        }
+      );
+
+      const ratingsData = ratingsResponse.data?.data || [];
+      ratingsData.forEach((ratingItem) => {
+        if (!ratingItem || !ratingItem.hotelId) return;
+        ratingsMap.set(ratingItem.hotelId, {
+          overallRating: ratingItem.overallRating ?? null,
+          numberOfReviews: ratingItem.numberOfReviews ?? null,
+        });
+      });
+    } catch (ratingsError) {
+      console.error(
+        "Amadeus Hotel Ratings API Error:",
+        ratingsError.response?.data || ratingsError.message
+      );
+      // Fail-soft: continue without ratings if this call fails
+      ratingsMap = new Map();
+    }
+
+    const normalizedHotels = hotels.map((item) => {
+      const baseRating = item.hotel.rating || null; // Star rating from hotel details if available
+      const ratingInfo = ratingsMap.get(item.hotel.hotelId) || {};
+
+      return {
+        id: item.hotel.hotelId,
+        name: item.hotel.name,
+        // Preserve existing rating field for backwards compatibility
+        rating: baseRating || (ratingInfo.overallRating ?? "N/A"),
+        city: item.hotel.address?.cityName || cityCode,
+        price: item.offers?.[0]?.price?.total || "0",
+        currency: item.offers?.[0]?.price?.currency || "USD",
+        // New fields specifically for the Hotel Ratings API
+        reviewRating: ratingInfo.overallRating ?? null,
+        reviewCount: ratingInfo.numberOfReviews ?? null,
+      };
+    });
 
     res.status(200).json({
       page: safePage,
