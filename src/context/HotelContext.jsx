@@ -37,7 +37,6 @@ export const HotelProvider = ({ children }) => {
       );
       
       const newHotels = data.results || [];
-      console.log("newHotels", newHotels);
 
       setHotels((prev) => (append ? [...prev, ...newHotels] : newHotels));
       setPage(data.page ?? pageNumber);
