@@ -1,4 +1,17 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
+function calculateAge(dateOfBirth) {
+  if (!dateOfBirth) return "";
+  const today = new Date();
+  const birthDate = new Date(dateOfBirth);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
 
 export default function AuthForm({
   title,
@@ -9,9 +22,10 @@ export default function AuthForm({
   linkTo,
   linkLabel,
   linkPrompt,
-  age,
-  dateofbirth,
+  isSignup = false,
 }) {
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const age = calculateAge(dateOfBirth);
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-100 to-slate-200 px-4">
       <div className="w-full max-w-md">
@@ -64,60 +78,77 @@ export default function AuthForm({
             />
           </div>
 
-          <div className="space-y-4">
-            <label htmlFor="gender" className="block text-sm font-medium text-slate-700">
-              Gender
-            </label>
-            <select
-              id="gender"
-              name="gender"
-              required
-              className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-            >
-              <option value="male"> Male </option>
-              <option value="female"> Female </option>
-              
-            </select>
-          </div>
+          {isSignup && (
+            <>
+              <div className="space-y-4 mt-4">
+                <label htmlFor="fullName" className="block text-sm font-medium text-slate-700">
+                  Full Name
+                </label>
+                <input
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Enter your full name"
+                  required
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                />
+              </div>
 
-          <div className="space-y-4">
-            <label htmlFor="fullName" className="block text-sm font-medium text-slate-700">
-              Full Name
-            </label>
-            <input
-              id="fullName"
-              name="fullName"
-              required
-              className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-            />
-          </div>
+              <div className="space-y-4 mt-4">
+                <span className="block text-sm font-medium text-slate-700">Gender</span>
+                <div className="flex gap-6 pt-2">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="male"
+                      required
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="text-slate-700">Male</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="female"
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="text-slate-700">Female</span>
+                  </label>
+                </div>
+              </div>
 
-          <div className="space-y-4">
-            <label htmlFor="age" className="block text-sm font-medium text-slate-700">
-              Age
-              <input
-                id="age"
-                name="age"
-                value={age}
-                required
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-              />
-              </label>
-            </div>
+              <div className="space-y-4 mt-4">
+                <label htmlFor="dateofbirth" className="block text-sm font-medium text-slate-700">
+                  Date of Birth
+                </label>
+                <input
+                  type="date"
+                  id="dateofbirth"
+                  name="dateofbirth"
+                  value={dateOfBirth}
+                  onChange={(e) => setDateOfBirth(e.target.value)}
+                  required
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                />
+              </div>
 
-            <div className="space-y-4">
-              <label htmlFor="dateofbirth" className="block text-sm font-medium text-slate-700">
-                Date of Birth
-              </label>
-              <input
-                type="date"
-                id="dateofbirth"
-                name="dateofbirth"
-                required
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-              />
-            </div>
-          
+              <div className="space-y-4 mt-4">
+                <label htmlFor="age" className="block text-sm font-medium text-slate-700">
+                  Age
+                </label>
+                <input
+                  id="age"
+                  name="age"
+                  type="text"
+                  value={age}
+                  readOnly
+                  className="w-full p-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-700 cursor-not-allowed"
+                  tabIndex={-1}
+                />
+              </div>
+            </>
+          )}
 
           <button
             type="submit"

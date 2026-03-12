@@ -18,25 +18,12 @@ export default function Signup() {
     const formData = new FormData(e.target);
     const email = formData.get("email");
     const password = formData.get("password");
-    const gender = formData.get("gender");
-    
     const fullName = formData.get("fullName");
+    const gender = formData.get("gender");
     const dateofbirth = formData.get("dateofbirth");
+    const age = formData.get("age");
 
-    function ageCalculate(dateofbirth) {
-      const today = new Date();
-      const birthDate = new Date(dateofbirth);
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const m = today.getMonth() - birthDate.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      return age;
-    }
-
-    const age = ageCalculate(dateofbirth);
-
-    const { error: authError } = await signUp(email, password, gender, age, fullName, dateofbirth);
+    const { error: authError } = await signUp(email, password, { fullName, gender, age, dateofbirth });
 
     if (authError) {
       setMessage(authError.message);
@@ -58,6 +45,7 @@ export default function Signup() {
       linkTo="/login"
       linkLabel="Login"
       linkPrompt="Already have an account?"
+      isSignup={true}
     />
   );
 }
