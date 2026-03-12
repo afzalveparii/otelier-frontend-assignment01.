@@ -18,8 +18,12 @@ export default function Signup() {
     const formData = new FormData(e.target);
     const email = formData.get("email");
     const password = formData.get("password");
+    const gender = formData.get("gender");
+    const age = formData.get("age");
+    const fullName = formData.get("fullName");
+    const dateofbirth = formData.get("dateofbirth");
 
-    const { error: authError } = await signUp(email, password);
+    const { error: authError } = await signUp(email, password, gender, age, fullName, dateofbirth);
 
     if (authError) {
       setMessage(authError.message);

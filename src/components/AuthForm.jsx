@@ -62,6 +62,59 @@ export default function AuthForm({
             />
           </div>
 
+          <div className="space-y-4">
+            <label htmlFor="gender" className="block text-sm font-medium text-slate-700">
+              Gender
+            </label>
+            <select
+              id="gender"
+              name="gender"
+              required
+              className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            >
+              <option value="male"> Male </option>
+              <option value="female"> Female </option>
+              
+            </select>
+          </div>
+
+          <div className="space-y-4">
+            <label htmlFor="fullName" className="block text-sm font-medium text-slate-700">
+              Full Name
+            </label>
+            <input
+              id="fullName"
+              name="fullName"
+              required
+              className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            />
+          </div>
+
+          <div className="space-y-4">
+            <label htmlFor="age" className="block text-sm font-medium text-slate-700">
+              Age
+              <input
+                id="age"
+                name="age"
+                required
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              />
+              </label>
+            </div>
+
+            <div className="space-y-4">
+              <label htmlFor="dateofbirth" className="block text-sm font-medium text-slate-700">
+                Date of Birth
+              </label>
+              <input
+                id="dateofbirth"
+                name="dateofbirth"
+                required
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              />
+            </div>
+          
+
           <button
             type="submit"
             className="w-full mt-6 py-3 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition"
