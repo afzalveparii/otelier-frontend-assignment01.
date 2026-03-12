@@ -23,6 +23,17 @@ export default function Signup() {
     const fullName = formData.get("fullName");
     const dateofbirth = formData.get("dateofbirth");
 
+    function ageCalculate(dateofbirth) {
+      const today = new Date();
+      const birthDate = new Date(dateofbirth);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
+
     const { error: authError } = await signUp(email, password, gender, age, fullName, dateofbirth);
 
     if (authError) {

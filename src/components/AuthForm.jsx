@@ -9,6 +9,7 @@ export default function AuthForm({
   linkTo,
   linkLabel,
   linkPrompt,
+  age,
 }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-100 to-slate-200 px-4">
@@ -96,6 +97,7 @@ export default function AuthForm({
               <input
                 id="age"
                 name="age"
+                value={age}
                 required
                 className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
               />
