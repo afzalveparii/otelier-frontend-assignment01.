@@ -107,6 +107,7 @@ export default function AuthForm({
                 Date of Birth
               </label>
               <input
+                type="date"
                 id="dateofbirth"
                 name="dateofbirth"
                 required
