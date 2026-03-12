@@ -10,6 +10,7 @@ export default function AuthForm({
   linkLabel,
   linkPrompt,
   age,
+  dateofbirth,
 }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-100 to-slate-200 px-4">

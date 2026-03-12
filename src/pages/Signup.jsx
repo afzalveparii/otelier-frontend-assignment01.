@@ -19,7 +19,7 @@ export default function Signup() {
     const email = formData.get("email");
     const password = formData.get("password");
     const gender = formData.get("gender");
-    const age = formData.get("age");
+    
     const fullName = formData.get("fullName");
     const dateofbirth = formData.get("dateofbirth");
 
@@ -33,6 +33,8 @@ export default function Signup() {
       }
       return age;
     }
+
+    const age = ageCalculate(dateofbirth);
 
     const { error: authError } = await signUp(email, password, gender, age, fullName, dateofbirth);
 
